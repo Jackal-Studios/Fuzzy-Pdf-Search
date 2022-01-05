@@ -20,9 +20,28 @@ def get_date():
 def get_ip():
     eel.prompt_alerts('127.0.0.1')
 
-options = {
-	'mode': 'custom',
-	'args': ['node_modules/electron/dist/electron.exe', '.']
-}
 
-eel.start('index.html', options=options)
+#
+# eel.start('index.html', mode='chrome-app',
+#                         host='localhost',
+#                         port=27000,
+#                         block=True,
+#                         size=(700, 480),
+#                         position=(0,0),
+#                         disable_cache=True,
+#                         cmdline_args=['--browser-startup-dialog',
+#                                 '--incognito', '--no-experiments'])
+import os
+import sys
+
+def resource_path(rel_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, rel_path)
+
+eel.browsers.set_path('electron', resource_path('node_modules/electron/dist/electron.exe'))
+
+eel.start("index.html",mode='electron')

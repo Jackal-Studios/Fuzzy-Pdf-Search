@@ -25,7 +25,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.web">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Fuzzy-Pdf-Search" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -91,8 +91,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.web" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -109,21 +109,21 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1718" height="264" key="GridCell.Tab.0.bottom" timestamp="1641313648609">
+    <state width="1718" height="264" key="GridCell.Tab.0.bottom" timestamp="1641387557806">
       <screen x="0" y="0" width="1739" height="939" />
     </state>
-    <state width="1718" height="264" key="GridCell.Tab.0.bottom/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641313648609" />
-    <state width="1718" height="264" key="GridCell.Tab.0.center" timestamp="1641313648609">
+    <state width="1718" height="264" key="GridCell.Tab.0.bottom/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641387557806" />
+    <state width="1718" height="264" key="GridCell.Tab.0.center" timestamp="1641387557806">
       <screen x="0" y="0" width="1739" height="939" />
     </state>
-    <state width="1718" height="264" key="GridCell.Tab.0.center/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641313648609" />
-    <state width="1718" height="264" key="GridCell.Tab.0.left" timestamp="1641313648609">
+    <state width="1718" height="264" key="GridCell.Tab.0.center/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641387557806" />
+    <state width="1718" height="264" key="GridCell.Tab.0.left" timestamp="1641387557806">
       <screen x="0" y="0" width="1739" height="939" />
     </state>
-    <state width="1718" height="264" key="GridCell.Tab.0.left/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641313648609" />
-    <state width="1718" height="264" key="GridCell.Tab.0.right" timestamp="1641313648609">
+    <state width="1718" height="264" key="GridCell.Tab.0.left/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641387557806" />
+    <state width="1718" height="264" key="GridCell.Tab.0.right" timestamp="1641387557806">
       <screen x="0" y="0" width="1739" height="939" />
     </state>
-    <state width="1718" height="264" key="GridCell.Tab.0.right/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641313648609" />
+    <state width="1718" height="264" key="GridCell.Tab.0.right/0.0.1739.939/-1366.130.1237.657@0.0.1739.939" timestamp="1641387557806" />
   </component>
 </project>
