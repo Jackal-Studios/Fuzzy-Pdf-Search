@@ -27,6 +27,7 @@ from pdfminer.high_level import extract_pages
 pagecount=0
 pagesizex=0
 pagesizey=0
+allmatches=[]
 def show_ltitem_hierarchy(o: Any, depth=0):
     global pagecount
     global pagesizex
@@ -47,9 +48,17 @@ def show_ltitem_hierarchy(o: Any, depth=0):
             pagesizex=get_optional_bbox(o).split(" ")[-3]
             pagesizey=get_optional_bbox(o).split(" ")[-2]
         pagecount+=1
-
     res = find_near_matches(search, get_optional_text(o), max_l_dist=2)
-    # for n in res:
+    #print(res)
+    if(len(res)>0):
+        print(pagecount)
+        # print(
+        #          f'{get_optional_bbox(o)} '
+        #          f'{get_optional_text(o)}'
+        #      )
+        for n in res:
+            allmatches.append([n.matched,pagecount])
+            print(n)
         
     # if("IMPORTANT" in get_optional_text(o)):
     #     print(
@@ -87,7 +96,7 @@ path = Path('testpdf.pdf').expanduser()
 
 pages = extract_pages(path)
 show_ltitem_hierarchy(pages)
-
+print(allmatches)
 
 
 #

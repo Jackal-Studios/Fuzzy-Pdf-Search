@@ -1,20 +1,320 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;width: 100%;padding: 0;margin:0;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fuzzy pdf search</title>
 
     <link rel="stylesheet" href="css/main.css">
-    <script type="text/javascript" src="/eel.js"></script> 
+
+    <!-- <script type="text/javascript" src="/eel.js"></script>  -->
+    <link rel="shortcut icon" href="index_files/icon.ico">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.js"> </script>
+    <!-- <script src="https://npmcdn.com/pdfjs-dist/build/pdf.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script> -->
 </head>
-<body>
+<body style="height: 100%;width: 100%;padding: 0;margin:0;">
     <div class="topnav">
         <a class="active" id="button-name">Display name</a>
         <a id="button-number">Display a random number</a>
         <a id="button-date">Display time and date</a>
         <a id="button-ip">Display my ip</a>
       </div> 
+<!--       <div style="opacity: 0.8; background-color: yellow; width: 200px; height: 100px; position: fixed; z-index: 200;">hui</div>
+ -->      <input name="myFile"id="myFile" type="file">
+      <!-- <button onclick="alert(document.getElementById('myFile').value);">123</button> -->
+    <!--   <button onclick="
+      alert(document.getElementById('myFile').files[0].path);
+      // document.getElementById('pdfframe').src='file:///'+document.getElementById('myFile').files[0].path;
+      ">123</button>
+      <br>
+      <input type="file" id="file">
+    <h2>Rendered pdf:</h2>
+    <canvas id="pdfCanvas" width="300" height="300"></canvas>
+ -->
+<!-- <input type="search" id="site-search" name="q"
+       aria-label="Search through site content">
+
+<button>Search</button> -->
+<!-- <button onclick="
+    window.find('xx555 Precision Timers');">see all html</button> -->
+<!-- <button onclick="alert(document.getElementById('pdfframe').
+contentWindow.document.body.innerHTML)">323</button> -->
+      <!-- <iframe id="pdfframe" style="width: 100%;height: 100%;border: none;"></iframe> -->
+<!--       <div style="opacity: 0.8; background-color: yellow; width: 200px; height: 100px; position: fixed; z-index: 200; margin-left: 30vh;margin-top: 20vh;">hui</div>
+ -->     
+    <!-- <iframe id="pdfframe" src="file:///E:\PythonProjects\Fuzzy-Pdf-Search\testpdf.pdf" style="width: 100%;height: 100vh;border: none; display: block;"></iframe> -->
+
+
+<!-- <webview id="foo" src="E:\PythonProjects\Fuzzy-Pdf-Search\testpdf.pdf" style="display:block;   /* iframes are inline by default */
+  border: none;     /* Reset default border */
+  height: 80vh;     /* Viewport-relative units */
+  width: 95vw;"></webview> -->
+121111111
+<!-- <webview id="foo" src="E:\PythonProjects\Fuzzy-Pdf-Search\testpdf.pdf" style="position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  display: inline-flex !important;"></webview> -->
+
+ <!-- <iframe id="pdfframe" src="https://www.ti.com/lit/ds/symlink/ne555.pdf" style="width: 100%;height: 100vh;border: none; display: block;"></iframe>
+  -->
+
+
+<!-- <iframe width="1711" height="680" src="https://www.youtube.com/embed/eCfDxZxTBW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  -->
+  <!-- <iframe src="https://google.com/" width="500" height="300"></iframe> -->
+  <!-- <script src="build/pdf.js"></script>
+  <script>
+   pdfjsLib.GlobalWorkerOptions.workerSrc = 'build/pdf.worker.js';
+
+   pdfjsLib.disableWorker = true
+  // PDFJS.workerSrc = 'bower_components/pdfjs-dist/build/pdf.worker.js'
+  // PDFJS.cMapUrl = 'bower_components/pdfjs-dist/cmaps'
+  // PDFJS.cMapPacked = true
+  pdfjsLib.disableRange = true
+  // PDFJS.disableStream = true
+  </script>
+  
+  <script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'build/pdf.worker.js';
+
+  pdfjsLib.getDocument('https://peerj.com/articles/2548.pdf').promise.then(function (pdf) {
+    var ctx = document.createElement('canvas').getContext('2d', { alpha: false });
+  
+    for (var i = 1; i <= pdf.numPages; i++) {
+      pdf.getPage(i).then(function (page) {
+        var viewport = page.getViewport(1.5);
+  
+        var pageContainer = document.createElement('div');
+        pageContainer.classList.add('page-container');
+        pageContainer.style.width = viewport.width + 'px';
+        pageContainer.style.height = viewport.height + 'px';
+  
+        // var pageContainer = document.createElementNS('http://www.w3.org/2000/svg', 'svg:svg');
+        // pageContainer.setAttribute('width', viewport.width + 'px');
+        // pageContainer.setAttribute('height', viewport.height + 'px');
+        // pageContainer.setAttribute('font-size', 1);
+  
+        document.body.appendChild(pageContainer);
+  
+        // page.getOperatorList().then(function (opList) {
+        //   var svgGfx = new PDFJS.SVGGraphics(page.commonObjs, page.objs);
+        //
+        //   svgGfx.getSVG(opList, viewport).then(function (svg) {
+        //     pageContainer.appendChild(svg);
+        //   });
+        // });
+  
+        page.getTextContent({ normalizeWhitespace: true }).then(function (textContent) {
+          textContent.items.forEach(function (textItem) {
+            var tx = PDFJS.Util.transform(
+              PDFJS.Util.transform(viewport.transform, textItem.transform),
+              [1, 0, 0, -1, 0, 0]
+            );
+  
+            var style = textContent.styles[textItem.fontName];
+            
+            // adjust for font ascent/descent
+            var fontSize = Math.sqrt((tx[2] * tx[2]) + (tx[3] * tx[3]));
+  
+            if (style.ascent) {
+              tx[5] -= fontSize * style.ascent;
+            } else if (style.descent) {
+              tx[5] -= fontSize * (1 + style.descent);
+            } else {
+              tx[5] -= fontSize / 2;
+            }
+            
+            // adjust for rendered width
+            if (textItem.width > 0) {
+              ctx.font = tx[0] + 'px ' + style.fontFamily;
+              
+              var width = ctx.measureText(textItem.str).width;
+  
+              if (width > 0) {
+                //tx[0] *= (textItem.width * viewport.scale) / width;
+                tx[0] = (textItem.width * viewport.scale) / width;
+              }
+            }
+  
+            // var item = document.createElementNS('http://www.w3.org/2000/svg', 'svg:text');
+            // item.textContent = textItem.str;
+            // item.setAttribute('font-family', style.fontFamily);
+            // item.setAttribute('transform', 'matrix(' + tx.join(' ') + ')');
+  
+            var item = document.createElement('span');
+            item.textContent = textItem.str;
+            item.style.fontFamily = style.fontFamily;
+            //item.style.transform = 'matrix(' + tx.join(',') + ')';
+            item.style.fontSize = fontSize + 'px';
+            item.style.transform = 'scaleX(' + tx[0] + ')';
+            item.style.left = tx[4] + 'px';
+            item.style.top = tx[5] + 'px';
+  
+            pageContainer.appendChild(item);
+          });
+        });
+      });
+    }
+  });
+  </script> -->
+ <!--  <div id="container"></div>
+ <script>
+ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.worker.js';
+  document.getElementById('file').onchange = function(event) {
+    var file = event.target.files[0];
+    var fileReader = new FileReader();
+    fileReader.onload = function() {
+      var typedarray = new Uint8Array(this.result);
+      console.log(typedarray);
+      const loadingTask = pdfjsLib.getDocument(typedarray);
+      
+      loadingTask.promise.then(pdf => {
+
+        // alert(pdf.numPages);
+        // The document is loaded here...
+        // This below is just for demonstration purposes showing that it works with the moderen api
+        pdf.getPage(1).then(function(page) {
+          console.log('Page loaded');
+  
+          var scale = 1.5;
+          var viewport = page.getViewport({
+            scale: scale
+          });
+  
+          var canvas = document.getElementById('pdfCanvas');
+          var context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+  
+          // Render PDF page into canvas context
+          var renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          var renderTask = page.render(renderContext);
+          renderTask.promise.then(function() {
+            console.log('Page rendered');
+          });
+  
+        });
+        // end of example code
+      });
+  
+    }
+    fileReader.readAsArrayBuffer(file);
+  }
+
+</script>  -->
+<!-- <div id="title">123kljkj12k3j12123123jkjlkjkllk123kljkljkljkljakldsjklasjd 
+asdasd 
+sd213
+ 123
+ 3233</div> -->
+<h3>Find Text in Page</h3>
+    <div>Lorem ipsum dolor sit amet consectetur 
+         adipisicing elit. GeeksForGeeks. Dolores
+         numquam quae ipsum, voluptas nisi dicta
+         dolorem eaque omnis nulla fuga.Provident
+         dolorem amet quas perferendis culpa, 
+         vitae eius dolores facere? GeeksForGeeks.
+    </div>
+    <br><br>
+    <input id="enter" type="text">
+    <button id="find">Find in Text</button>
+    <button id="clear">Clear Selection</button>
+<!-- <button id="some-button">123 click</button>
+<script type="text/javascript">
+    alert("1")
+    import searchInPage from 'electron-in-page-search';
+// or
+const searchInPage = require('electron-in-page-search').default;
+
+import {remote} from 'electron';
+
+const inPageSearch = searchInPage(remote.getCurrentWebContents(),{ openDevToolsOfSearchWindow: true });
+
+document.getElementById('some-button').addEventListener('click', () => {
+    inPageSearch.openSearchWindow();
+});
+
+</script> -->
+  <script>
+        window.api.receive("fromMain", (data) => {
+            //alert('123');
+            console.log(`Received ${data} from main process`);
+            
+// const electron = require('electron')
+// Importing BrowserWindow from Main Process
+        });
+        window.api.send("toMain", "some data");
+        var find = document.getElementById('find');
+        var clear = document.getElementById('clear');
+        find.addEventListener('click', () => {
+        var text = document.getElementById('enter').value;
+        if (text) {
+            // const requestId = win.webContents.findInPage(text, options);
+            // console.log(requestId);
+            window.api.send("toMain", text);
+            console.log("sent "+text);
+
+        } else {
+            console.log('Enter Text to find');
+        }
+  
+        });
+        clear.addEventListener('click', () => {
+        window.api.send("toMain", "stop1");
+
+        //win.webContents.stopFindInPage('clearSelection');
+        });
+
+    </script>
 </body>
-<script src="js/main.js"></script>
+<!-- <script type="text/javascript">alert('12')</script> -->
+<!-- <script type="module" src="example.js"></script>
+ --><script src="js/main.js"></script>
 </html>
+
+<!-- 
+
+const BrowserWindow = electron.remote.BrowserWindow;
+const electron = data;
+var find = document.getElementById('find');
+var clear = document.getElementById('clear');
+let win = BrowserWindow.getFocusedWindow();
+// let win = BrowserWindow.getAllWindows()[0];
+  
+var options = {
+    forward: true,
+    findNext: false,
+    matchCase: false,
+    wordStart: false,
+    medialCapitalAsWordStart: false
+}
+  
+find.addEventListener('click', () => {
+    var text = document.getElementById('enter').value;
+    console.log(text);
+    if (text) {
+        const requestId = win.webContents.findInPage(text, options);
+        console.log(requestId);
+    } else {
+        console.log('Enter Text to find');
+    }
+  
+    win.webContents.on('found-in-page', (event, result) => {
+        console.log(result.requestId);
+        console.log(result.activeMatchOrdinal);
+        console.log(result.matches);
+        console.log(result.selectionArea);
+    });
+});
+  
+clear.addEventListener('click', () => {
+    win.webContents.stopFindInPage('clearSelection');
+});
+
+ -->

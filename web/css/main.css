@@ -25,3 +25,16 @@
     background-color: #4CAF50;
     color: white;
   } */
+.electron-in-page-search-window {
+  width: 300px;
+  height: 36px;
+  background-color: white;
+}
+
+.electron-in-page-search-window.search-inactive {
+  visibility: hidden;
+}
+
+.electron-in-page-search-window.search-active {
+  visibility: visible;
+}
