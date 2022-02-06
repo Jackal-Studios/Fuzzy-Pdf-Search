@@ -132,3 +132,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+node_modules/electron/package.json
+node_modules/.package-lock.json
+node_modules/@types/node/buffer.d.ts
+node_modules/@types/node/globals.d.ts
+node_modules/@types/node/http.d.ts
+node_modules/@types/node/index.d.ts
+node_modules/@types/node/package.json
+node_modules/@types/node/README.md
+node_modules/electron/checksums.json
+node_modules/electron/electron.d.ts
+node_modules/electron/install.js
