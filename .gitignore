@@ -143,3 +143,4 @@ node_modules/@types/node/README.md
 node_modules/electron/checksums.json
 node_modules/electron/electron.d.ts
 node_modules/electron/install.js
+.idea/workspace.xml
