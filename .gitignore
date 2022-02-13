@@ -30,7 +30,7 @@ MANIFEST
 #mine
 #node_modules/
 #pure_electron/
-
+.idea/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
