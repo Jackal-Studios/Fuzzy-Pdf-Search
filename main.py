@@ -91,13 +91,14 @@ def get_optional_text(o: Any) -> str:
         return o.get_text().strip()
     return ''
 
-
+import time
+t=time.time()
 path = Path('testpdf.pdf').expanduser()
-
+print(path)
 pages = extract_pages(path)
 show_ltitem_hierarchy(pages)
 print(allmatches)
-
+print(time.time()-t)
 
 #
 #
