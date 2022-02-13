@@ -5,11 +5,7 @@ import pickle
 import time
 import base64
 import threading
-print('1')
-
 from flasksolution.fuzzysearchmodule import FuzzySearchEngine as FSE
-print('2')
-
 from pathlib import Path
 from pdfminer.high_level import extract_pages
 
@@ -168,16 +164,18 @@ def upload():
 
 
 def thread_function(id,searchphrase):
+    print(id)
+    print(searchphrase)
 
-   print("Thread {}: starting".format(id))
-   x=FSE(searchphrase)
-   path = Path(id).expanduser()  #PATH!!! upload !!!1 TODO add download directory
-   pages = extract_pages(path)
-   x.show_ltitem_hierarchy(pages)
-   print(x.allmatches)
-   FuzzySearchResults[id]=x.allmatches
-   #time.sleep(2)
-   print("Thread {}: finishing".format(id))
+    print("Thread {}: starting".format(id))
+    x=FSE(searchphrase)
+    path = Path(id).expanduser()  #PATH!!! upload !!!1 TODO add download directory
+    pages = extract_pages(path)
+    x.show_ltitem_hierarchy(pages)
+    print(x.allmatches)
+    FuzzySearchResults[id]=formtable(x.allmatches)
+    #time.sleep(2)
+    print("Thread {}: finishing".format(id))
 
 
 
@@ -187,11 +185,12 @@ def process_qt_calculation():
         qtc_data = request.get_json()
         #TODO add new thread to fuzzy search and when ready send to web tableform
         print(qtc_data)
-        print(qtc_data[0]['input'])
-        print(qtc_data[0]['id'])
+        #print(qtc_data[0]['input'])
+        #print(qtc_data[0]['id'])
+        x = threading.Thread(target=thread_function, args=(qtc_data['id'],qtc_data[0]['input'],))
+        x.start()
 
-        # x = threading.Thread(target=thread_function, args=(qtc_data['id'],))
-        # x.start()
+        #TODO add a function waiting for request from setInterval and if a key with an id exists in FuzzySearchResults then return data
     # results = {'nummatches': 3,
     #            'matches': {
     #                0:{
