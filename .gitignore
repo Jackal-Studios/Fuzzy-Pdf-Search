@@ -28,8 +28,8 @@ share/python-wheels/
 MANIFEST
 
 #mine
-node_modules/
-pure_electron/
+#node_modules/
+#pure_electron/
 
 
 # PyInstaller
