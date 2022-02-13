@@ -374,7 +374,9 @@ function searchbtn(){
   //document.getElementById("searchresblock").style.display="block";
   var inputfield = document.getElementById("searchinput");
   var server_data = [
-  {"input": inputfield.value}
+  {"input": inputfield.value,
+  	"id": sessionStorage.getItem('sessionID')
+}
 ];
 
 $.ajax({
@@ -386,7 +388,7 @@ $.ajax({
   success: function(result) {
     console.log("Result:");
     console.log(result);
-    placeintable(result);
+    //placeintable(result);
   } 
 });
 

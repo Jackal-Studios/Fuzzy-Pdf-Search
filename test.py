@@ -203,3 +203,90 @@
 #
 #
 # win.mainloop()
+
+
+
+results = {'nummatches': 3,
+               'matches': {
+                   0: {
+                       'match':"Important",
+                       'page':7,
+                       'matchesonpage':2
+                   },
+                   1: {
+                       'match': "Omportant",
+                       'page': 2,
+                       'matchesonpage': 1
+                   },
+                   2: {
+                       'match': "Important",
+                       'page': 5,
+                       'matchesonpage': 6
+                   }
+               },
+               }
+import json
+from flask import jsonify
+shit=[['important', 1], ['important', 1], ['Important', 22], ['Important', 22],['important',4]]
+
+
+def arrelement(arr,position):
+    arr2=[]
+    for n in arr:
+        arr2.append(n[position])
+    return arr2
+def FormatToJson(input):
+    output={}
+    output['nummatches']=len(input)
+    i=0
+    arr=[]
+    lenght=len(input)
+    while (i < lenght):
+        arr.append(i)
+        i+=1
+    i = 0
+    output['matches'] = dict.fromkeys(arr)
+    uniquematches=[]
+    for n in input:
+        if(n[0] not in uniquematches):
+            uniquematches.append(n[0])
+    #print(uniquematches)
+    UniqueMatchesExtended=[]
+    for n in uniquematches:
+        for j in input:
+            if(j[0]==n):
+
+                if((n not in arrelement(UniqueMatchesExtended,0))):
+                    UniqueMatchesExtended.append([n,j[1],1])
+                else:
+                    UniqueMatchesExtended[uniquematches.index(n)]=[n,UniqueMatchesExtended[uniquematches.index(n)][1],UniqueMatchesExtended[uniquematches.index(n)][2]+1]
+
+    #print(UniqueMatchesExtended)
+    while(i<lenght):
+        output['matches'][i]=dict.fromkeys(['match','page','matchesonpage'])
+        output['matches'][i]['match'] = input[i][0]
+        output['matches'][i]['page']=input[i][1]
+        output['matches'][i]['matchesonpage']=1
+        i+=1
+    return output
+print(FormatToJson(shit))
+def formtable(results):
+    arr = {}
+    i = 0
+    while (i < len(results['matches'])):
+        if (results['matches'][i]['match'] in arr):
+            pages = arr[results['matches'][i]['match']][0] + [results['matches'][i]['page']]
+            # print(pages)
+            # # print(type(pages))
+            # print(set(pages))
+            pages = list(set(pages))
+            # pages=set(pages)
+            arr[results['matches'][i]['match']] = [pages, results['matches'][i]['matchesonpage'] +
+                                                   arr[results['matches'][i]['match']][1]]
+        else:
+            arr[results['matches'][i]['match']] = [[results['matches'][i]['page']],
+                                                   results['matches'][i]['matchesonpage']]
+        i += 1
+    return arr
+print(formtable(results))
+print(formtable(FormatToJson(shit)))

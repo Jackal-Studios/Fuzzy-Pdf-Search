@@ -8,10 +8,11 @@ from pdfminer.high_level import extract_pages
 # pagesizey = 0
 #allmatches = []
 class FuzzySearchEngine:
-    def __init__(self,searchphrase):
+    def __init__(self,searchphrase,errors=2):
         self.allmatches = []
         self.pagecount = 0
         self.search=searchphrase
+        self.errors=errors
     def show_ltitem_hierarchy(self,o: Any, depth=0):
         # global pagecount
         # global pagesizex
@@ -26,7 +27,7 @@ class FuzzySearchEngine:
                 # pagesizex = get_optional_bbox(o).split(" ")[-3]
                 # pagesizey = get_optional_bbox(o).split(" ")[-2]
             self.pagecount += 1
-        res = find_near_matches(self.search, self.get_optional_text(o), max_l_dist=2)
+        res = find_near_matches(self.search, self.get_optional_text(o), max_l_dist=self.errors)
         # print(res)
         if (len(res) > 0):
             #print(pagecount)
@@ -58,14 +59,14 @@ class FuzzySearchEngine:
             return o.get_text().strip()
         return ''
 
-filepath='testpdf.pdf'
-searchphrase="Important"
-x=FuzzySearchEngine(searchphrase)
-path = Path(filepath).expanduser()
-pages = extract_pages(path)
-
-x.show_ltitem_hierarchy(pages)
-print(x.allmatches)
+# filepath='testpdf.pdf'
+# searchphrase="Important"
+# x=FuzzySearchEngine(searchphrase)
+# path = Path(filepath).expanduser()
+# pages = extract_pages(path)
+#
+# x.show_ltitem_hierarchy(pages)
+# print(x.allmatches)
 #import time
 
 #t = time.time()

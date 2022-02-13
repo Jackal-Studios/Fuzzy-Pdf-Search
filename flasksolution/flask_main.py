@@ -3,23 +3,41 @@ from werkzeug.utils import secure_filename
 import os
 import pickle
 import time
+import base64
+import threading
+print('1')
 
+from flasksolution.fuzzysearchmodule import FuzzySearchEngine as FSE
+print('2')
+
+from pathlib import Path
+from pdfminer.high_level import extract_pages
+
+# x=FSE("searchphrase")
+# path = Path("filepath").expanduser()
+# pages = extract_pages(path)
+# x.show_ltitem_hierarchy(pages)
+# print(x.allmatches)
 
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = {'pdf'}
 
-infopath="infofile"
-info=[]
+FuzzySearchResults={}
+
+infopath="infofile.pickle"
+info=[]  #file and time
 if(os.path.isfile(infopath)):
-    with open(infopath, 'rb') as data:
-        info = pickle.load(data)
-        data.close()
+    if os.path.getsize(infopath) > 0:
+        with open(infopath, 'rb') as data:
+
+            info = pickle.load(data)
+            data.close()
 
 else:
     with open(infopath,'wb') as output:
         pickle.dump(info,output)
         output.close()
-#TODO open another thread and check every hour if there are any files that are older than an hour
+#TODO open another thread and check every hour if there are any files that are older than an hour  AND check if there are any old files in fuzzy searched file
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -43,11 +61,49 @@ def formtable(results):
         i += 1
     return arr
 
+def arrelement(arr,position):
+    arr2=[]
+    for n in arr:
+        arr2.append(n[position])
+    return arr2
+def FormatToJson(input):
+    output={}
+    output['nummatches']=len(input)
+    i=0
+    arr=[]
+    lenght=len(input)
+    while (i < lenght):
+        arr.append(i)
+        i+=1
+    i = 0
+    output['matches'] = dict.fromkeys(arr)
+    uniquematches=[]
+    for n in input:
+        if(n[0] not in uniquematches):
+            uniquematches.append(n[0])
+    #print(uniquematches)
+    UniqueMatchesExtended=[]
+    for n in uniquematches:
+        for j in input:
+            if(j[0]==n):
+
+                if((n not in arrelement(UniqueMatchesExtended,0))):
+                    UniqueMatchesExtended.append([n,j[1],1])
+                else:
+                    UniqueMatchesExtended[uniquematches.index(n)]=[n,UniqueMatchesExtended[uniquematches.index(n)][1],UniqueMatchesExtended[uniquematches.index(n)][2]+1]
+
+    #print(UniqueMatchesExtended)
+    while(i<lenght):
+        output['matches'][i]=dict.fromkeys(['match','page','matchesonpage'])
+        output['matches'][i]['match'] = input[i][0]
+        output['matches'][i]['page']=input[i][1]
+        output['matches'][i]['matchesonpage']=1
+        i+=1
+    return output
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-import base64
 # def convert_and_save(b64_string):
 #
 #     b64_string += '=' * (-len(b64_string) % 4)  # restore stripped '='s
@@ -56,6 +112,9 @@ import base64
 #
 #     with open("tmp/imageToSave.png", "wb") as fh:
 #         fh.write(base64.decodebytes(string))
+
+
+
 def convert_and_save(b64_string,filename):
     if(allowed_file(filename+".pdf")):
         with open(filename+".pdf", "wb") as fh:
@@ -107,34 +166,54 @@ def upload():
 #             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 #             return "successfully downloaded: "+filename
 
+
+def thread_function(id,searchphrase):
+
+   print("Thread {}: starting".format(id))
+   x=FSE(searchphrase)
+   path = Path(id).expanduser()  #PATH!!! upload !!!1 TODO add download directory
+   pages = extract_pages(path)
+   x.show_ltitem_hierarchy(pages)
+   print(x.allmatches)
+   FuzzySearchResults[id]=x.allmatches
+   #time.sleep(2)
+   print("Thread {}: finishing".format(id))
+
+
+
 @app.route('/process_qtc', methods=['POST', 'GET'])
 def process_qt_calculation():
     if request.method == "POST":
         qtc_data = request.get_json()
         #TODO add new thread to fuzzy search and when ready send to web tableform
         print(qtc_data)
-    results = {'nummatches': 3,
-               'matches': {
-                   0:{
-                   'match':"Important",
-                   'page':7,
-                   'matchesonpage':2
-                          },
-                   1: {
-                       'match': "Omportant",
-                       'page': 2,
-                       'matchesonpage': 1
-                   },
-                   2: {
-                       'match': "Important",
-                       'page': 5,
-                       'matchesonpage': 6
-                   }
-               },
-               }
-    results['tablematch']=formtable(results)
-    print(results)
+        print(qtc_data[0]['input'])
+        print(qtc_data[0]['id'])
 
+        # x = threading.Thread(target=thread_function, args=(qtc_data['id'],))
+        # x.start()
+    # results = {'nummatches': 3,
+    #            'matches': {
+    #                0:{
+    #                'match':"Important",
+    #                'page':7,
+    #                'matchesonpage':2
+    #                       },
+    #                1: {
+    #                    'match': "Omportant",
+    #                    'page': 2,
+    #                    'matchesonpage': 1
+    #                },
+    #                2: {
+    #                    'match': "Important",
+    #                    'page': 5,
+    #                    'matchesonpage': 6
+    #                }
+    #            },
+    #            }
+    # results['tablematch']=formtable(results)
+    #print(results)
+    results="Your pdf is being processed"
     return jsonify(results)
 
 @app.route("/", methods=['post','get'])
