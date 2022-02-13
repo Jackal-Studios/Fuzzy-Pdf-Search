@@ -1,0 +1,69 @@
+if(result['nummatches']!=0){
+    document.getElementById("searchresblock").style.display="block";
+    
+    //for (var i = 0; i<result['nummatches']; i++) {
+    //    const tr = document.createElement("tr");
+    //    const thnum = document.createElement("th");
+    //   const thmatch = document.createElement("th");
+    //    const thpage = document.createElement("th");
+    //    const thmatchesnum = document.createElement("th");
+    //    thnum.innerHTML=i+1;
+    //    thmatch.innerHTML=result['matches'][i]['match'];
+    //    thpage.innerHTML=result['matches'][i]['page'];
+    //    thmatchesnum.innerHTML=result['matches'][i]['matchesonpage'];
+    //    tr.setAttribute('id','tr'+i.toString());
+    //    document.getElementById("searchtablebody").appendChild(tr); 
+    //    document.getElementById("tr"+i.toString()).appendChild(thnum);
+    //    document.getElementById("tr"+i.toString()).appendChild(thmatch);
+    //    document.getElementById("tr"+i.toString()).appendChild(thpage);
+    //    document.getElementById("tr"+i.toString()).appendChild(thmatchesnum); 
+    //}
+    document.getElementById('searchtablebody').innerHTML="<tr><th>№</th><th>Match</th><th>Pages</th><th>Matches</th></tr>"
+    var i =0;
+    for (const [key, value] of Object.entries(result['tablematch'])) {
+        //console.log(key, value);
+        const tr = document.createElement("tr");
+        const thnum = document.createElement("th");
+        const thmatch = document.createElement("th");
+        const thpage = document.createElement("th");
+        const thmatchesnum = document.createElement("th");
+        thnum.innerHTML=i+1;
+        thmatch.innerHTML=`<span class="pagelink" onclick="search('`+key+`')">`+key+`</span>`;
+        //onclick="search('+key+')"
+        
+        //console.log(linkpages(value[0]).toString());
+        thpage.innerHTML= linkpages(value[0]).toString();
+        
+        //value[0];
+        thmatchesnum.innerHTML=value[1];
+        tr.setAttribute('id','tr'+i.toString());
+        document.getElementById("searchtablebody").appendChild(tr); 
+        document.getElementById("tr"+i.toString()).appendChild(thnum);
+        document.getElementById("tr"+i.toString()).appendChild(thmatch);
+        document.getElementById("tr"+i.toString()).appendChild(thpage);
+        document.getElementById("tr"+i.toString()).appendChild(thmatchesnum); 
+        i=i+1
+    }
+    
+        
+    //document.getElementById("searchresblock").style.display="block";
+    //const tr = document.createElement("tr");
+    //const thnum = document.createElement("th");
+    //const thmatch = document.createElement("th");
+    //const thpage = document.createElement("th");
+    //const thmatchesnum = document.createElement("th");
+    //thnum.innerHTML="1";
+    //thmatch.innerHTML="Iporto";
+    //thpage.innerHTML="4";
+    //thmatchesnum.innerHTML="3";
+    //tr.setAttribute('id','tr1');
+    //document.getElementById("searchtablebody").appendChild(tr); 
+    //document.getElementById("tr1").appendChild(thnum);
+    //document.getElementById("tr1").appendChild(thmatch);
+    //document.getElementById("tr1").appendChild(thpage);
+    //document.getElementById("tr1").appendChild(thmatchesnum); 
+ 
+ 
+ 
+    
+    }
