@@ -1,9 +1,25 @@
 from flask import Flask,render_template,request,jsonify,url_for, flash
 from werkzeug.utils import secure_filename
 import os
+import pickle
+import time
+
+
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = {'pdf'}
 
+infopath="infofile"
+info=[]
+if(os.path.isfile(infopath)):
+    with open(infopath, 'rb') as data:
+        info = pickle.load(data)
+        data.close()
+
+else:
+    with open(infopath,'wb') as output:
+        pickle.dump(info,output)
+        output.close()
+#TODO open another thread and check every hour if there are any files that are older than an hour
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -41,8 +57,11 @@ import base64
 #     with open("tmp/imageToSave.png", "wb") as fh:
 #         fh.write(base64.decodebytes(string))
 def convert_and_save(b64_string,filename):
-    with open(filename+".pdf", "wb") as fh:
-        fh.write(base64.decodebytes(b64_string.encode()))
+    if(allowed_file(filename+".pdf")):
+        with open(filename+".pdf", "wb") as fh:
+            fh.write(base64.decodebytes(b64_string.encode()))
+        with open(infopath, 'wb') as output:
+            pickle.dump(info.append([filename,time.time()]), output)
 import json
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -92,6 +111,7 @@ def upload():
 def process_qt_calculation():
     if request.method == "POST":
         qtc_data = request.get_json()
+        #TODO add new thread to fuzzy search and when ready send to web tableform
         print(qtc_data)
     results = {'nummatches': 3,
                'matches': {
@@ -517,7 +537,7 @@ $.ajax({
   	<div id="topMenu">
   	    
   		<input type="Text" id="searchinput" name="searchtext" placeholder="Fuzzy search.."> 
-  		<button class="searchbtn" id="searchbtn" onclick="searchbtn()">Fuzzy search</button>
+  		<button class="searchbtn" id="searchbtn" onclick="searchbtn()">Fuzzy search</button><button class="searchbtn" onclick="document.getElementById('openFile').click()">Upload <i class="fas fa-upload"></i></button>
   		<br>
   		<!-- <div id="infobox" >
   		<i id="infoicon" class="fas fa-info-circle" onclick="infobtn();" > </i><span onclick="infobtn();" id="btnlabeltext"
